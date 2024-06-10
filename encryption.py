@@ -65,13 +65,16 @@ def encrypt_file(file_path, key):
         plaintext = f.read()
 
     ciphertext = simple_encrypt(key, counter, nonce, plaintext)
-    encrypted_file_path = file_path + '.enc'
+
+    base_filename = os.path.splitext(file_path)[0]
+    encrypted_file_path = base_filename + '.enc'
     
     with open(encrypted_file_path, 'wb') as f:
         f.write(nonce + ciphertext)
+   
+    os.remove(file_path)
     
     return encrypted_file_path
-
 
 def decrypt_file(file_path, key):
     with open(file_path, 'rb') as f:
@@ -80,7 +83,7 @@ def decrypt_file(file_path, key):
 
     counter = 1
     plaintext = simple_decrypt(key, counter, nonce, ciphertext)
-    decrypted_file_path = os.path.splitext(file_path)[0]  
+    decrypted_file_path = os.path.splitext(file_path)[0] 
     decrypted_file_path += '.zip'
     
     with open(decrypted_file_path, 'wb') as f:
