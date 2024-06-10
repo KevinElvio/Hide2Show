@@ -72,6 +72,7 @@ def encrypt_file(file_path, key):
     
     return encrypted_file_path
 
+
 def decrypt_file(file_path, key):
     with open(file_path, 'rb') as f:
         nonce = f.read(NONCE_SIZE)
@@ -79,7 +80,8 @@ def decrypt_file(file_path, key):
 
     counter = 1
     plaintext = simple_decrypt(key, counter, nonce, ciphertext)
-    decrypted_file_path = file_path + '.dec'
+    decrypted_file_path = os.path.splitext(file_path)[0]  
+    decrypted_file_path += '.zip'
     
     with open(decrypted_file_path, 'wb') as f:
         f.write(plaintext)
